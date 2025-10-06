@@ -1,0 +1,4 @@
+name: alpaca
+config: 
+  stock_symbol_relative_path: etl_project/data/top_tech_stock_symbol.csv
+  load_method: upsert
