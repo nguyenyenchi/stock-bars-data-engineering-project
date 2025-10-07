@@ -31,7 +31,7 @@ def get_yaml_config():
 
 if __name__ == "__main__":
     
-    logger.info("Get config variables")
+    # logger.info("Get config variables")
     config = get_yaml_config() # Get config (Create one config file per pipeline)
 
     logger.info("Fetching environment variables")
