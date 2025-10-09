@@ -33,7 +33,7 @@ def save_checkpoint(engine, checkpoint_table_name: str, table_name: str, latest_
         table = Table(
             checkpoint_table_name,
             metadata,
-            Column("table_name", String, primary_key=True),   # fixed ID for checkpoint row
+            Column("table_name", String, primary_key=True),  
             Column("latest_timestamp", String)
         )
         metadata.create_all(engine)

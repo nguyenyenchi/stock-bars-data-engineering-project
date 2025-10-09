@@ -73,7 +73,7 @@ if __name__ == "__main__":
                 api_secret_key=ALPACA_API_SECRET_KEY
             )
             if not extracted_stock_bars:
-                logger.warning("No data returned from Alpaca API. Possibly start_date is too recent.")
+                logger.warning("No data returned from Alpaca API. Possibly start_date is too recent. Check start date and try again / later.")
                 
             # Reflect existing table
             metadata = MetaData()
