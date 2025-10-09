@@ -1,4 +1,5 @@
 import requests
+from typing import Optional
 
 # Naming an object of class that talks to a server
 class AlpacaApiClient: # Talks to server
@@ -18,11 +19,15 @@ class AlpacaApiClient: # Talks to server
             symbols: str, 
             timeframe: str, 
             start_time: str,
-            end_time: str
-            ) -> list[dict]:
+            end_time: Optional[str] = None
+            ) -> dict:
         
         base_url = f"{self.base_url}?limit=1000&adjustment=raw&feed=sip&sort=asc"
-        params = {"symbols": symbols, "timeframe": timeframe,"start": start_time, "end": end_time}
+        params = {"symbols": symbols, "timeframe": timeframe, "start": start_time}
+
+        if end_time:
+            params["end"] = end_time
+
         headers = {"APCA-API-KEY-ID": self.api_key_id, "APCA-API-SECRET-KEY": self.api_secret_key}
         response = requests.get(base_url, params=params, headers=headers)
         

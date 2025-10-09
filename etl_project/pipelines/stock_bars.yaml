@@ -2,3 +2,5 @@ name: alpaca
 config: 
   stock_symbol_relative_path: etl_project/data/top_tech_stock_symbol.csv
   load_method: upsert
+  source_table_name: stock_bars
+  checkpoint_table_name: check_points
