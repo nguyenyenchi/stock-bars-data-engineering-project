@@ -56,18 +56,18 @@ if __name__ == "__main__":
 
     try:
         if inspect(postgres_sql_client.engine).has_table(source_table_name):
-            logger.info(f"Table '{source_table_name}' exists in the database.")
+            logger.info(f"Table '{source_table_name}' exists in the database")
 
             # Get last checkpoint
             last_checkpoint = get_checkpoint(postgres_sql_client.engine, checkpoint_table_name, table_name=source_table_name)
             last_checkpoint_date = last_checkpoint[:10]
-            next_day_date = (datetime.strptime(last_checkpoint_date, "%Y-%m-%d") + timedelta(days=1)).strftime("%Y-%m-%d")
+            # next_day_date = (datetime.strptime(last_checkpoint_date, "%Y-%m-%d") + timedelta(days=1)).strftime("%Y-%m-%d")
 
             # Incremental extract from last checkpoint date to today
-            logger.info(f"Last checkpoint is {last_checkpoint_date}. Performing incremental extract from {next_day_date} to today.")
+            logger.info(f"Last checkpoint is {last_checkpoint_date}. Performing incremental extract from {last_checkpoint_date} to today.")
             extracted_stock_bars = extract_alpaca_data(
                 stock_symbol_csv_path=config['config']['stock_symbol_relative_path'],
-                start_date=next_day_date,
+                start_date=last_checkpoint_date,
                 timeframe="1Day",
                 api_key_id=ALPACA_API_KEY_ID,
                 api_secret_key=ALPACA_API_SECRET_KEY
@@ -81,8 +81,8 @@ if __name__ == "__main__":
             table = metadata.tables[source_table_name]
 
         else:
-            logger.info(f"Table '{source_table_name}' does not exist.")
-            logger.info("Performing initial load of data to create the table.")
+            logger.info(f"Table '{source_table_name}' does not exist")
+            logger.info("Performing initial load of data to create the table")
 
             # Full initial extract data for September 2025
             extracted_stock_bars = extract_alpaca_data(
@@ -107,7 +107,6 @@ if __name__ == "__main__":
         # Transform data    
         df_stock = transform(df_stock_bars, df_stock_symbol)
 
-        logger.info(f"Transformed data has {df_stock.shape[0]} rows")
         # Load data to Postgres
         load(
             df=df_stock,
@@ -117,7 +116,7 @@ if __name__ == "__main__":
             load_method=config['config']['load_method']
         )
         
-        logger.info(f"{df_stock.shape[0]} rows loaded to the database") 
+        logger.info(f"Data loading to table '{source_table_name}' completed.") 
 
         # Save latest timestamp as checkpoint
         latest_timestamp = df_stock['timestamp'].max()
