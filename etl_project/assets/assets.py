@@ -12,6 +12,7 @@ from sqlalchemy import (
         String,
         MetaData,
         Float)
+from jinja2 import Environment
 
 def get_stock_symbol(csv_file_path: str) -> str:
     """
@@ -69,7 +70,7 @@ def convert_to_dataframe(data: dict) -> pd.DataFrame:
 def extract_stock_symbol(csv_path):
     return pd.read_csv(csv_path)
 
-def transform(df: pd.DataFrame, df_stock_symbol: pd.DataFrame) -> pd.DataFrame:
+def initial_transform(df: pd.DataFrame, df_stock_symbol: pd.DataFrame) -> pd.DataFrame:
     
     # Convert timestamp column to datetime
     df['t'] = pd.to_datetime(df['t'])
@@ -106,16 +107,6 @@ def transform(df: pd.DataFrame, df_stock_symbol: pd.DataFrame) -> pd.DataFrame:
     ]
 
     return df_stock
-
-def initial_load(
-    df_stock: pd.DataFrame,
-    postgresql_client: PostgreSqlClient,
-    table, 
-    metadata
-):
-
-    postgresql_client.write_to_database(table=table, metadata=metadata, data=df_stock
-    )
 
 def load(
     df: pd.DataFrame,
@@ -171,3 +162,9 @@ def define_stock_bars_table(metadata: MetaData, source_table_name: str) -> Table
         Column("volume_weighted_avg_price", Float),
         Column("number_of_trades", Integer)
     )
+
+def transform_and_load_analysis_table(environment: Environment, engine: Engine) -> None:
+    for sql_path in environment.list_templates():
+        sql_template = environment.get_template(sql_path)
+        sql_query = sql_template.render()
+        engine.execute(sql_query)
