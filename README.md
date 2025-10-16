@@ -2,10 +2,10 @@
 End-to-End Data Engineering Project — Extract, Transform, Load, and Deploy on AWS
 ## 📋 Project Overview
 
-This project implements an end-to-end ETL (Extract, Transform, Load) pipeline that extracts historical daily stock bars (open, high, low, close, volume) from the Alpaca Markets API, stores them in a PostgreSQL database, performs analytical transformations, and deploys the automated workflow to AWS ECS (Elastic Container Service).
+This project implements an end-to-end ETL (Extract, Transform, Load) pipeline that extracts historical daily stock bars (open, high, low, close, volume) from the Alpaca Markets API, performs analytical transformations, stores the data in a PostgreSQL database hosted on Amazon Relational Database Service (RDS) and deploys the automated workflow with a weekly run schedule to AWS ECS (Elastic Container Service).
 
 The pipeline runs initially as a full extract and load, and subsequently performs incremental extract and load based on the latest timestamp recorded in the database.
-Processed and enriched data is stored in a table named stock_bars_analysis, which can be used for downstream analytics and dashboarding.
+Processed and enriched data is stored in a separate table named stock_bars_analysis, which can be used for downstream analytics and dashboarding.
 
 ## 🧩 Key Features
 
