@@ -7,6 +7,9 @@ This project implements an end-to-end ETL (Extract, Transform, Load) pipeline th
 The pipeline runs initially as a full extract and load, and subsequently performs incremental extract and load based on the latest timestamp recorded in the database.
 Processed and enriched data is stored in a table named stock_bars_analysis, which can be used for downstream analytics and dashboarding.
 
+## System Architecture
+![alt text](/instruction/images/image_sa.png)
+
 ## 🧩 Key Features
 
 | Key features | Description |
@@ -15,8 +18,8 @@ Processed and enriched data is stored in a table named stock_bars_analysis, whic
 | Extract method | Full extract (initial load) and incremental extract (subsequent runs using latest timestamp from last run).|
 |Load Method |	Full load (initially overwriting data) followed by incremental load (upserting records using latest timestamp from last run). |
 | Data transformation | Rename column, get date from timestamp, windown functions to calculate previous close price, daily returns, 5-day moving average and standard deviation.  All transformed data is stored in a separate table named stock_bars_analysis for further analysis.|
-|Unit testings| Unit testing for connectors (Alpaca Markets API and PostgreSQL) modules |
-| Metadata logging | Pipeline metadata logged in a dedicated table |
+|Unit testings| Unit testing for connectors (Alpaca Markets API and PostgreSQL) modules. |
+| Metadata logging | Pipeline metadata logged in a dedicated table. |
 | Containerization |	Built and packaged as a Docker image, stored in AWS ECR (Elastic Container Registry). |
 | Orchestration	| Deployed as a scheduled ECS task running weekly. |
 | Storage	| PostgreSQL database hosted on AWS RDS. |
