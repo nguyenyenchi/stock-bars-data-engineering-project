@@ -17,8 +17,8 @@ Processed and enriched data is stored in a table named stock_bars_analysis, whic
 | Data transformation | Rename column, get date from timestamp, windown functions to calculate previous close price, daily returns, 5-day moving average and standard deviation.  All transformed data is stored in a separate table named stock_bars_analysis for further analysis.|
 |Unit testings| Unit testing for connectors (Alpaca Markets API and PostgreSQL) modules |
 | Metadata logging | Pipeline metadata logged in a dedicated table |
-| Containerization |	Built and packaged as a Docker image, stored in AWS ECR (Elastic Container Registry). |
-| Orchestration	| Deployed as a scheduled ECS task running weekly. |
+| Containerization |	Built and packaged as a Docker image, stored in AWS Elastic Container Registry (ECR). |
+| Orchestration	| Deployed as a scheduled Elastic Container Service (ECS) task running weekly. |
 | Storage	| PostgreSQL database hosted on AWS RDS. |
 |Configuration |	Environment variables managed securely via .env file stored in AWS S3.|
 
